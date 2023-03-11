@@ -1,0 +1,59 @@
+import os
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+
+main = Tk()
+main.title("Files Renamer")
+
+def execute(event):
+    path = os.getcwd()
+
+    files = []
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(path):
+        for file in f:
+            if '.' in file:
+                files.append(os.path.basename(os.path.join(r, file)))
+    files2 = []
+    for r, d, f in os.walk(path):
+        for file in f:
+            if '.' in file:
+                files2.append(os.path.join(r, file))
+                
+    character = str(entry.get())
+    for file in files:
+        file_str = str(file)
+        file_str_exist = file_str[1:]
+        if file_str[1:] in files:
+            for file2 in files2: 
+                if os.path.basename(file2) == file:
+                    dir2 = os.path.dirname(file2)
+                    os.chdir(dir2)
+                    ren_file = file_str.lstrip(character)
+                    os.remove(os.path.join(dir2, ren_file))
+                    os.system('attrib -h -s '+'"{}"'.format(file2))
+                    os.rename(file2, os.path.join(dir2, ren_file))
+                    break
+        else:
+            pass
+    else:
+        messagebox.showinfo("", "Files are treated and renamed successfully!")
+        main.quit()
+
+frame = Frame(main)
+frame.pack()
+
+label = Label(frame, text="Enter the character to remove:")
+label.pack(side="left", padx=5)
+entry = Entry(frame)
+entry.pack(side="right", padx=10)
+entry.focus()
+entry.bind('<Return>', execute)
+
+button = Button(main, text="Ok", width=10)
+button.pack(pady=10)
+button.bind('<Return>', execute)
+button.bind('<Button-1>', execute)
+
+main.mainloop()

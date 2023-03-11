@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div onclick ="change()" id="test">Test</div>
+    <form enctype="multipart/form-data" method="post" action="cgi-bin/hello.cgi.py" target="_blank" name="form1">
+        <input type="file" name="fileToUpload"/>
+        <input type="submit" value="UPLOAD" name="submit"/>
+    </form>
+    <img id="image"/>
+    <script>
+        function showPath() {
+            var path = document.form1.fileToUpload.files;
+            console.log(path);
+        }
+        function change() {
+            var xml = new XMLHttpRequest();
+            xml.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    var responsedata = this.responseText;
+                    document.getElementById('test').innerHTML = responsedata;
+                }
+            }
+            var json = document.getElementsByTagName('input')[0].files[0];//.replace('C:\\fakepath\\', '');
+            var formData = new FormData();
+            formData.append("fileToUpload",json);
+            console.log(json);
+            xml.open('POST', `http://localhost:8888/cgi-bin/hello.cgi.py`, true);
+            // xml.setRequestHeader('Content-type', 'multipart/form-data');
+            xml.send(formData);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+    .circle {
+        background-color:white;
+        box-shadow:0 0 20px white, 0 0 20px darkblue, 0 0 20px white;
+        height:6.0%;
+        width:1.4%;
+        border-radius:100%;
+    }
+    .rightdiv, .leftdiv {
+        display:none;
+        height:11.1%; 
+        width:2.9%;
+        background-color:white;
+        border:8px solid rgba(0, 0, 139, 0.61);
+        box-shadow: 0 0 30px white, 0 0 30px darkblue, 0 0 30px white;
+        animation: glow 0.6s;
+    }
+    .bottomdiv {
+        display:block;
+        height:11.3%; 
+        width:2.9%;
+        background-color:white;
+        border:8px solid rgba(0, 0, 139, 0.61);
+        box-shadow: 0 0 20px white, 0 0 10px darkblue, 0 0 20px white;
+    }
+    @keyframes glow {
+        from {opacity:0.1;}
+        to {opacity:1;}
+    }
+    @media screen and (max-width:300px) {
+        .image-container {height:100px;}
+        .leftdiv {left:14.3%}
+        .rightdiv {left:31.3%}
+    }
+    .links-container {
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        background-color:rgba(137, 137, 255, 0.555);
+        box-sizing:bord
+    }
+    #links {
+        flex:60%;
+        background-color:white;
+        font-family:Verdana, 'Segoe UI';
+        padding:20px;
+        margin:20px;
+    }
+    #button {
+        background-color:darkblue;
+        width:55%;
+        margin:auto;
+        padding:15px 10px;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        color:white;
+        text-align:center;
+    }
+    #button:hover {
+        background-color:blue;
+        box-shadow:2px 2px 10px blue;
+    }
+    .mycheckboxes a {
+        text-decoration:none;
+    }
+</style>
+</head>
+<body style="padding:0; margin:0;">
+    <header>
+        <div class="image-container" style="position:relative; width:100%; height:330px;">
+            <img src="tether logo.jpg" style="width:100%; height:100%;">
+            <div class="circle" style="position:absolute; top:56.4%; left:24.5%;"></div>
+            <div class="circle" style="position:absolute; top:56.4%; left:24.5%;"></div>
+            <div class="leftdiv" style="position:absolute; top:4.8%; left:14.5%;"></div>
+            <div class="rightdiv" style="position:absolute; top:4.8%; left:31.5%;"></div>
+            <div class="bottomdiv" style="position:absolute; top:51.8%; left:23.0%;"></div>
+        </div>
+    </header>
+    <script>
+        circlepos = document.getElementsByClassName("circle");
+        setInterval(moves, 3000);
+        function moves() {
+            var pos = 0;
+            for (var h = 0; h < circlepos.length; h++) {
+                circlepos[h].style.top = "56.4%";
+                circlepos[h].style.left = "24.5%";
+            }
+            var moveInterval = setInterval(movecircles, 5);
+            document.getElementsByClassName("leftdiv")[0].style.display = "none";
+            document.getElementsByClassName("rightdiv")[0].style.display = "none";
+            document.getElementsByClassName("bottomdiv")[0].style.display = "block";
+            function movecircles() {
+                if (pos == 313) {
+                    move2();
+                    clearInterval(moveInterval);
+                } else {
+                    pos += 1;
+                    if (pos == 46) {
+                        document.getElementsByClassName("bottomdiv")[0].style.display = "none";
+                        for (var l=0; l < circlepos.length; l++) {circlepos[l].style.top = "39.2%";}    
+                    }
+                    for (var i=0; i < circlepos.length; i++) {
+                        var finalpos = ((((circlepos[i].style.top).replace("%","")/1)*10) - (0.1*10))/10;
+                        circlepos[i].style.top = finalpos + "%";
+                    }
+                }
+            }
+        }
+        function move2() {
+            var pos2 = 0;
+            var moveInterval2 = setInterval(movecircles2, 10);
+            function movecircles2() {
+                if (pos2 == 52) {
+                    clearInterval(moveInterval2);
+                } else {
+                    pos2 += 1;
+                    if (pos2 == 37) {
+                        document.getElementsByClassName("leftdiv")[0].style.display = "block";
+                        document.getElementsByClassName("rightdiv")[0].style.display = "block";
+                        for (n = 0; n < circlepos.length; n++) {
+                            if (n == 0) {circlepos[n].style.left = "31.6%"}
+                            else {circlepos[n].style.left = "17.0%"}
+                        }
+                    }
+                    for (var j=0; j < circlepos.length; j++) {
+                        if (j == 0) {
+                            var finalpos2 = ((((circlepos[j].style.left).replace("%","")/1)*10) + (0.1*10))/10;
+                            circlepos[j].style.left = finalpos2 + "%";
+                        } else {
+                            var finalpos2 = ((((circlepos[j].style.left).replace("%","")/1)*10) - (0.1*10))/10;
+                            circlepos[j].style.left = finalpos2 + "%";
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <div class="links-container">
+        <div id="links"></div>
+    </div>
+    <script>
+        /*var links = document.getElementById("links");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = this.responseText;
+                var obj = JSON.parse(res);
+                txt = "";
+                for (x in obj) {
+                    console.log(typeof(obj[x]));
+                    if (typeof(obj[x]) == "object") {
+                        for (y in obj[x]) {
+                            for (z in obj[x][y]) {
+                                txt+="<span>"+z+":"+obj[x][y][z]+"</span><br>";
+                            }
+                        }
+                    } else {txt+="<span>"+obj[x]+"</span><br>"}
+                }
+                links.innerHTML = this.getResponseHeader("Content-length") + "<br>" + this.responseURL+"<br><video>"+this.response+"</video>";
+            }
+        }
+        xhttp.open("GET", "http://localhost:8888/test.mp4", true);
+        xhttp.responseType ="blob";
+        xhttp.send();*/
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8888/test.jpg', true);
+
+        xhr.responseType = 'blob';
+
+        xhr.onload = function(e) {
+            if (this.status == 200) {
+                var blob = this.response;
+                var url = window.URL.createObjectURL(blob);
+                document.getElementById("links").innerHTML = "<span>"+this.getResponseHeader("Content-length")+"</span><br><img src="+url+">";
+            };
+        };
+
+        xhr.onerror = function(e) {
+            alert("Error " + e.target.status + " occurred while receiving the document.");
+        };
+
+        xhr.send();
+    </script>
+</body>
+</html>
